@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="test_spritesheet" tilewidth="32" tileheight="32" tilecount="16" columns="4">
+  <image source="../tileSheets/test_spritesheet.png" width="128" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="17" name="test_spritesheet2" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="../tileSheets/test_spritesheet2.png" width="64" height="64"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3WQQqAIBBAURsMuv+Ja1FgojIjpWl/8TYxLT4lozjn/EkO26Ak6ujlyY5e6Lh3WFj/v9J8q3O5JPjMc6mYDztSMzk1HatC2GGZjzu079JBh6bjMnrHLN+Djvr9kWPdAS33R8t7yZt3Svb5984HHf/rYJ/TMWrHDPscAAAAAAAAAEI7efAIyxAnAAA=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3Vuw0AIAgFQFZw/2XtMWoiDSZ3HZ/uhRABnIxLnfu7eXUfWLmfXuQBwAv/oxd5AAAAAADwuwkXuIrwECcAAA==
+  </data>
+ </layer>
+</map>
