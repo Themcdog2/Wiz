@@ -94,7 +94,7 @@ public class CustomFireEmitter implements ParticleEmitter{
 			for(int i = 0; i < 100; i++){
 			timer = interval;
 			Particle p = system.getNewParticle(this, 1000);
-			p.setColor(1, 1, 1, 0.5f);
+			p.setColor(1, 1, 1, 0.5f * delta);
 			p.setPosition(x, y);
 			p.setSize(size);
 			
@@ -252,25 +252,25 @@ public class CustomFireEmitter implements ParticleEmitter{
 		
 		
 		if(WizGame.getPlayer().isMovingUp() && WizGame.getPlayer().isMovingRight()){
-			particle.adjustPosition(2, -2);
+			particle.adjustPosition(0.5f * delta * delta, -0.5f * delta * delta);
 		}else if(WizGame.getPlayer().isMovingUp() && WizGame.getPlayer().isMovingLeft()){
-			particle.adjustPosition(-2, -2);
+			particle.adjustPosition(-0.5f * delta * delta, -0.5f * delta * delta);
 		}else if(WizGame.getPlayer().isMovingDown() && WizGame.getPlayer().isMovingRight()){
-			particle.adjustPosition(2, 2);
+			particle.adjustPosition(0.5f * delta * delta, 0.5f * delta * delta);
 		}else if(WizGame.getPlayer().isMovingDown() && WizGame.getPlayer().isMovingLeft()){
-			particle.adjustPosition(-2, 2);;
+			particle.adjustPosition(-0.5f * delta * delta, 0.5f * delta * delta);;
 			
 			
 		}else if(WizGame.getPlayer().isMovingUp()){
-			particle.adjustPosition(0, -2);
+			particle.adjustPosition(0, -0.5f * delta * delta);
 		}else if(WizGame.getPlayer().isMovingDown()){
-			particle.adjustPosition(0, 2);
+			particle.adjustPosition(0, 0.5f * delta * delta);
 		}else if(WizGame.getPlayer().isMovingLeft()){
-			particle.adjustPosition(-2, 0);
+			particle.adjustPosition(-0.5f * delta * delta, 0);
 		}else if(WizGame.getPlayer().isMovingRight()){
-			particle.adjustPosition(2, 0);
+			particle.adjustPosition(0.5f * delta * delta, 0);
 		}
-		particle.adjustVelocity(particleDirection.x/50000, particleDirection.y/50000);
+		particle.adjustVelocity(particleDirection.x/500000 * delta, particleDirection.y/500000 * delta);
 		
 		
 		Rectangle tempBounds = new Rectangle(particle.getX(), particle.getY(), this.size, this.size); 

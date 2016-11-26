@@ -80,15 +80,14 @@ public class WizGame extends BasicGame implements KeyListener, MouseListener, Mo
 		//g.scale(scale, scale);
 		
 		//g.translate(-screenScrollX, -screenScrollY); //has to be negative because f you
-		GL.glTranslatef(-screenScrollX, -screenScrollY, 0);
+		GL.glTranslatef(-Math.round(screenScrollX), -Math.round(screenScrollY), 0);
 		//GL.glScalef(scale, scale, 0);
 		
 		
-		map.render(0, 0, 0);
-		map.render(0, 0, 1);
+		map.render(0, 0);
 		p.render(g);
 	
-
+		
 		//Light.renderAll(g, container, null);
 		
 		
