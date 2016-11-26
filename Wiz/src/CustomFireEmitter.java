@@ -11,8 +11,7 @@ public class CustomFireEmitter implements ParticleEmitter{
 	/** The y coordinate of the center of the fire effect */
 	private int y;
 	
-	private int oldX;
-	private int oldY;
+
 	
 	/** The particle emission rate */
 	private int interval = 50;
@@ -93,25 +92,19 @@ public class CustomFireEmitter implements ParticleEmitter{
 		if (timer <= 0) {
 			for(int i = 0; i < 100; i++){
 			timer = interval;
-			Particle p = system.getNewParticle(this, 1000);
-			p.setColor(1, 1, 1, 0.5f * delta);
+			Particle p;
+			
+			p = system.getNewParticle(this, 1000);
+			
+			
+			p.setColor(1, 1, 1, 1);
 			p.setPosition(x, y);
 			p.setSize(size);
+			p.setSpeed(0.4f);
 			
-			float vx = 0, vy = 0;
-			boolean oneDirection; //Lol
-			boolean playerUp = WizGame.getPlayer().isMovingUp()
-				 , playerDown = WizGame.getPlayer().isMovingDown()
-				 , playerLeft = WizGame.getPlayer().isMovingLeft()
-				 , playerRight = WizGame.getPlayer().isMovingRight();
-			
-			if((playerUp && playerLeft) || (playerUp && playerRight) || (playerUp && playerDown) || (playerDown && playerLeft) || (playerDown && playerRight) || (playerLeft && playerRight)){
-				oneDirection = false;
-			}else{
-				oneDirection = true;
-			}
-			
-			oneDirection=true;
+
+
+	
 			
 			//System.out.println(oneDirection);
 			
@@ -125,23 +118,23 @@ public class CustomFireEmitter implements ParticleEmitter{
 			 */
 			
 			
-			if(true){
+			
 			
 				if(currentRand == 0){
 					if(Math.random() > 0.5){
-						p.setVelocity((float)(Math.random() * 0.02), (float)(Math.random() * 0.025));
+						p.setVelocity((float)(Math.random() * 0.02), (float)(Math.random() * 0.015));
 					}else{
-						p.setVelocity((float)(-Math.random() * 0.02), (float)(-Math.random() * 0.025));
+						p.setVelocity((float)(-Math.random() * 0.02), (float)(-Math.random() * 0.015));
 					}
 				}else{
 					if(Math.random() > 0.5){
-						p.setVelocity((float)(Math.random() * 0.02), (float)(-Math.random() * 0.025));
+						p.setVelocity((float)(Math.random() * 0.02), (float)(-Math.random() * 0.015));
 					}else{
-						p.setVelocity((float)(-Math.random() * 0.02), (float)(Math.random() * 0.025));
+						p.setVelocity((float)(-Math.random() * 0.02), (float)(Math.random() * 0.015));
 					}
 				}
 				
-			}
+			
 			
 			/*else{
 			
@@ -252,26 +245,29 @@ public class CustomFireEmitter implements ParticleEmitter{
 		
 		
 		if(WizGame.getPlayer().isMovingUp() && WizGame.getPlayer().isMovingRight()){
-			particle.adjustPosition(0.5f * delta * delta, -0.5f * delta * delta);
+			particle.adjustPosition(0.5f * delta, -0.5f * delta);
 		}else if(WizGame.getPlayer().isMovingUp() && WizGame.getPlayer().isMovingLeft()){
-			particle.adjustPosition(-0.5f * delta * delta, -0.5f * delta * delta);
+			particle.adjustPosition(-0.5f * delta, -0.5f * delta);
 		}else if(WizGame.getPlayer().isMovingDown() && WizGame.getPlayer().isMovingRight()){
-			particle.adjustPosition(0.5f * delta * delta, 0.5f * delta * delta);
+			particle.adjustPosition(0.5f * delta, 0.5f * delta);
 		}else if(WizGame.getPlayer().isMovingDown() && WizGame.getPlayer().isMovingLeft()){
-			particle.adjustPosition(-0.5f * delta * delta, 0.5f * delta * delta);;
+			particle.adjustPosition(-0.5f * delta, 0.5f * delta);;
 			
 			
 		}else if(WizGame.getPlayer().isMovingUp()){
-			particle.adjustPosition(0, -0.5f * delta * delta);
+			particle.adjustPosition(0, -0.5f * delta);
 		}else if(WizGame.getPlayer().isMovingDown()){
-			particle.adjustPosition(0, 0.5f * delta * delta);
+			particle.adjustPosition(0, 0.5f * delta);
 		}else if(WizGame.getPlayer().isMovingLeft()){
-			particle.adjustPosition(-0.5f * delta * delta, 0);
+			particle.adjustPosition(-0.5f * delta, 0);
 		}else if(WizGame.getPlayer().isMovingRight()){
-			particle.adjustPosition(0.5f * delta * delta, 0);
+			particle.adjustPosition(0.5f * delta, 0);
 		}
-		particle.adjustVelocity(particleDirection.x/500000 * delta, particleDirection.y/500000 * delta);
+		particle.adjustVelocity(particleDirection.x/250000 * delta, particleDirection.y/250000 * delta);
 		
+		if(WizGame.mouseReleased && this.completed()){
+			particle.kill();
+		}
 		
 		Rectangle tempBounds = new Rectangle(particle.getX(), particle.getY(), this.size, this.size); 
 		for(Rectangle e : WizGame.blocks){
@@ -279,10 +275,30 @@ public class CustomFireEmitter implements ParticleEmitter{
 				particle.kill();
 			}
 		}
-		
-		
+		Vector2f tempResult = new Vector2f();
+		Vector2f.sub(particlePosition, mousePosition, tempResult);
 		float c = 0.002f * delta;
-		particle.adjustColor(0,-c/2,-c*2,-c/4);
+		if(!WizGame.mouseDown){
+		particle.adjustColor(0,-c/2,-c*2,-c/2);
+		}else{
+			particle.adjustLife(10);
+			//particle.setColor(particle.getColor().r, particle.getColor().g, particle.getColor().b, 0.2f);
+			if(particle.getColor().a <= 0.2f){
+				particle.adjustColor(0,-c/2,-c*2, 0);
+			}else{
+			particle.adjustColor(0,-c/2,-c*2, -c/2);
+			}
+		}
+		
+		if(tempResult.length() <= 10f){
+			if(Math.random() > 0.5){
+			particle.setVelocity((float)Math.random() / 50, (float)Math.random() / 50);
+			}else{
+				particle.setVelocity(-(float)Math.random() / 50, -(float)Math.random() / 50);
+			}
+		}
+		
+		
 	}
 
 	public boolean isEnabled() {

@@ -1,17 +1,11 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import org.lwjgl.Sys;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.InputImplementation;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
@@ -19,10 +13,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
-import org.newdawn.slick.particles.Particle;
-import org.newdawn.slick.particles.ParticleEmitter;
-import org.newdawn.slick.particles.ParticleSystem;
-import org.newdawn.slick.particles.effects.FireEmitter;
 
 public class WizGame extends BasicGame implements KeyListener, MouseListener, MouseMotionListener{
 	protected SGL GL = Renderer.get();
@@ -45,6 +35,9 @@ public class WizGame extends BasicGame implements KeyListener, MouseListener, Mo
 	boolean keyA;
 	boolean keyD;
 	boolean keyS;
+	
+	static boolean mouseDown;
+	static boolean mouseReleased;
 	
 	static float scale = 1f;
 	static float screenScrollX;
@@ -172,6 +165,16 @@ public class WizGame extends BasicGame implements KeyListener, MouseListener, Mo
 		 screenMouseX = input.getAbsoluteMouseX();
 		 screenMouseY = input.getAbsoluteMouseY();
 		 
+		 
+		 if(mouseDown == true && input.isMouseButtonDown(0) == false){
+			 mouseReleased = true;
+		 }else{
+			 mouseReleased = false;
+		 }
+		 
+		 mouseDown = input.isMouseButtonDown(0);
+		
+		 //System.out.println(mouseDown);
 		 
 		
 
@@ -310,7 +313,7 @@ public class WizGame extends BasicGame implements KeyListener, MouseListener, Mo
 	}
 
 	public void setPlayer(Player p) {
-		this.p = p;
+		WizGame.p = p;
 	}
 
 	public static ArrayList<Rectangle> getBlockingElements() {

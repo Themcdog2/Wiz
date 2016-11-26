@@ -1,20 +1,14 @@
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.imageio.ImageIO;
-
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.AppletGameContainer.Container;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -203,17 +197,18 @@ public class Player {
 		
 	}
 	
-	public int checkMovingCollision(ArrayList<Rectangle> blocks){  // 0 = up   1 = down   2 = left    3 = right  4 = no collision
+	public boolean[] checkMovingCollision(ArrayList<Rectangle> blocks){  // 0 = up   1 = down   2 = left    3 = right  4 = no collision
 
 		 
 		Rectangle tempBounds;
+		boolean[] hits = new boolean[5];
 		
 		//Check up first
 		tempBounds = new Rectangle(bounds.getX(), bounds.getY() - moveSpeed, bounds.getWidth(), bounds.getHeight());
 			for(Rectangle ret : blocks) {
 				if(tempBounds.intersects(ret)) {
 					setInCollision(true);
-					return 0;
+					hits[0] = true;
 			}
 		}
 			
@@ -223,7 +218,7 @@ public class Player {
 			for(Rectangle ret : blocks) {
 				if(tempBounds.intersects(ret)) {
 					setInCollision(true);
-					return 1;
+					hits[1] = true;
 			}
 		}
 			
@@ -232,7 +227,7 @@ public class Player {
 			for(Rectangle ret : blocks) {
 				if(tempBounds.intersects(ret)) {
 					setInCollision(true);
-					return 2;
+					hits[2] = true;
 			}
 		}
 			
@@ -241,12 +236,13 @@ public class Player {
 			for(Rectangle ret : blocks) {
 				if(tempBounds.intersects(ret)) {
 					setInCollision(true);
-					return 3;
+					hits[3] = true;
 			}
 				
 				
 		}
-			return 4;
+			hits[4] = true;
+			return hits;
 			
 	}
 	
@@ -278,17 +274,17 @@ public class Player {
 		
 		
 		if(!teleporting){
-			int collision = checkMovingCollision(WizGame.getBlockingElements());
-		if(movingUp && collision != 0){
+			boolean[] collision = checkMovingCollision(WizGame.getBlockingElements());
+		if(movingUp && collision[0] != true){
 			worldY-= 0.5 * delta;
 		}
-		if(movingDown && collision != 1){
+		if(movingDown && collision[1] != true){
 			worldY+= 0.5 * delta;
 		}
-		if(movingLeft && collision != 2){
+		if(movingLeft && collision[2] != true){
 			worldX-= 0.5 * delta;
 		}
-		if(movingRight && collision != 3){
+		if(movingRight && collision[3] != true){
 			worldX+= 0.5 * delta;
 		}
 		}
